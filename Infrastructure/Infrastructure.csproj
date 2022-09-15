@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="HotChocolate.Subscriptions" Version="11.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.28" />
+		<PackageReference Include="MongoDB.Driver" Version="2.17.1" />
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.2.7" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Core\GraphQL.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Folder Include="Configurations\" />
+	</ItemGroup>
+
+</Project>
