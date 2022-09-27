@@ -1,18 +1,9 @@
-using API.Configurations;
-using API.Mutation;
-using API.Queries;
-using API.Resolver;
-using API.Subscriptions;
-using API.Types;
-using GraphQL.Core.Repositories;
 using Infrastructure.Data;
-using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -33,11 +24,9 @@ namespace routewithGrapqhl
 {
     public class Startup
     {
-        private readonly ApiConfiguration apiConfiguration;
         public Startup(IConfiguration configuration)
         {
             // MongoDbConfiguration
-            this.apiConfiguration = configuration.Get<ApiConfiguration>();
             Configuration = configuration;
 
 
@@ -58,12 +47,6 @@ namespace routewithGrapqhl
                 });
             });
             // Configurations
-            services.AddSingleton(this.apiConfiguration.MongoDbConfiguration);
-
-            // Repositories
-            services.AddSingleton<ICatalogContext, CatalogContext>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddDbContext<ApplicationDbContext>();
 
             // ===== Add Identity ========
@@ -136,14 +119,7 @@ namespace routewithGrapqhl
             });
             services.AddMvc(options => options.EnableEndpointRouting = false);
             // GraphQL
-            services
-                .AddGraphQLServer()
-                .AddQueryType<Query>()
-                .AddType<ProductType>()
-                .AddMutationType<Mutation>()
-                .AddType<CategoryResolver>()
-                            .AddSubscriptionType<Subscription>()
-                .AddInMemorySubscriptions();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ApplicationDbContext dbContext)
