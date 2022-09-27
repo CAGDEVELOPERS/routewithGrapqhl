@@ -149,10 +149,7 @@ namespace routewithGrapqhl
             dbContext.Database.EnsureCreated();
             app.UseRouting();
             app.UseWebSockets();
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGraphQL("/api/graphql");
-            });
+
         }
     }
 }
