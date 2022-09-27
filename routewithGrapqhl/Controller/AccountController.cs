@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace API.Controller
 {
-    [EnableCors]
+    [EnableCors("CORS")]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
