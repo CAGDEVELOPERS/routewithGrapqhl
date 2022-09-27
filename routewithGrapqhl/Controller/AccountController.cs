@@ -85,6 +85,7 @@ namespace API.Controller
                       where user.Active
                       select new
                       {
+                          id = user.Id,
                           userNamen = user.UserName,
                           Name = user.Name,
                           LastName = user.LastName,
@@ -100,6 +101,7 @@ namespace API.Controller
                       where !user.Active
                       select new
                       {
+                          id = user.Id,
                           userNamen = user.UserName,
                           Name = user.Name,
                           LastName = user.LastName,
@@ -115,6 +117,7 @@ namespace API.Controller
                       where user.Id == id
                       select new
                       {
+                          id = user.Id,
                           userNamen = user.UserName,
                           Name = user.Name,
                           LastName = user.LastName,
