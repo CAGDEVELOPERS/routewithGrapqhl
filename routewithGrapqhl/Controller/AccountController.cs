@@ -54,17 +54,7 @@ namespace API.Controller
         /// </summary>
         /// <returns>A Route Redirect</returns>
         // GET: api/Account
-        [HttpGet("User")]
-        public async Task<IActionResult> UserLog()
-        {
-            JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
-            string authHeader = Request.Headers[HeaderNames.Authorization];
-            authHeader = authHeader.Replace("Bearer ", "");
-            JwtSecurityToken token = handler.ReadToken(authHeader) as JwtSecurityToken;
-            Claim ClaimUserID = token.Claims.First(claim => claim.Type == "UserID");
-            string UserID = ClaimUserID.Value;
-            return Redirect($"/api/User/{UserID}");
-        }
+
 
         class Token
         {
@@ -132,12 +122,10 @@ namespace API.Controller
         [HttpPost("Changeimg")]
         public async Task<IActionResult> ChangeImage([FromBody] ChangeImg changeImg)
         {
-            String path = Path.Combine(webHostEnvironment.WebRootPath, "images"); //Path
-            string imgPath = Path.Combine(path, changeImg.id);
-            imgPath += ".jpg";
-            byte[] imageBytes = Convert.FromBase64String(changeImg.imgbase64);
-            System.IO.File.WriteAllBytes(imgPath, imageBytes);
-            return Ok(imgPath);
+            User user = _context.Users.Where(x => x.Id == changeImg.id).First();
+            user.img = Convert.FromBase64String(changeImg.imgbase64);
+            _context.SaveChanges();
+            return Ok();
         }
         [HttpPost("ResetPassword")]
         public async Task<object> UpdatePassword([FromBody] ResetPassword userPass)
@@ -169,7 +157,7 @@ namespace API.Controller
             if (result.Succeeded)
             {
                 var appUser = _userManager.Users.SingleOrDefault(r => r.Email == loginData.Email);
-                var AppLogin = new AppUserLogin
+                var AppLogin = new
                 {
                     active = appUser.Active,
                     Email = appUser.Email,
@@ -177,7 +165,8 @@ namespace API.Controller
                     User = appUser.UserName,
                     LastName = appUser.LastName,
                     Name = appUser.Name,
-                    img = Convert.ToBase64String(appUser.img)
+                    img = Convert.ToBase64String(appUser.img),
+                    Roles = await _userManager.GetRolesAsync(appUser)
                 };
                 var token = await GenerateJwtToken(loginData.Email, appUser);
                 //Task<IActionResult> RolList = new RoleController(_context,_roleManager).Get(Roles.RoleId);
