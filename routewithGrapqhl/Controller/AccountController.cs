@@ -78,7 +78,50 @@ namespace API.Controller
 
             public string imgbase64 { get; set; }
         }
+        [HttpGet("Users")]
+        public async Task<IActionResult> GetUsers()
+        {
+            return Ok(from user in _context.Users
+                      where user.Active
+                      select new
+                      {
+                          userNamen = user.UserName,
+                          Name = user.Name,
+                          LastName = user.LastName,
+                          email = user.Email
 
+                      });
+        }
+
+        [HttpGet("usersDisabled")]
+        public async Task<IActionResult> GetUsersNotActive()
+        {
+            return Ok(from user in _context.Users
+                      where !user.Active
+                      select new
+                      {
+                          userNamen = user.UserName,
+                          Name = user.Name,
+                          LastName = user.LastName,
+                          email = user.Email
+
+                      });
+        }
+
+        [HttpGet("UsersById/{id}")]
+        public async Task<IActionResult> GetUsersById([FromRoute] string id)
+        {
+            return Ok(from user in _context.Users
+                      where user.Id == id
+                      select new
+                      {
+                          userNamen = user.UserName,
+                          Name = user.Name,
+                          LastName = user.LastName,
+                          email = user.Email
+
+                      });
+        }
         [HttpPost("Changeimg")]
         public async Task<IActionResult> ChangeImage([FromBody] ChangeImg changeImg)
         {
