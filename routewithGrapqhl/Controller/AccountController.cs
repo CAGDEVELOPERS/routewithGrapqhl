@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -31,13 +32,13 @@ namespace API.Controller
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _context;
         private readonly RoleManager<IdentityRole> _roleManager;
-
+        private readonly IWebHostEnvironment webHostEnvironment;
         // Constructor
         public AccountController(UserManager<User> userManager,
                                 SignInManager<User> signInManager,
                                 IConfiguration configuration,
                                 ApplicationDbContext context,
-                                RoleManager<IdentityRole> roleManager
+                                RoleManager<IdentityRole> roleManager, IWebHostEnvironment hostEnvironment
                                 )
         {
             _userManager = userManager;
@@ -45,6 +46,7 @@ namespace API.Controller
             _configuration = configuration;
             _roleManager = roleManager;
             _context = context;
+            webHostEnvironment = hostEnvironment;
         }
 
         /// <summary>
@@ -130,12 +132,12 @@ namespace API.Controller
         [HttpPost("Changeimg")]
         public async Task<IActionResult> ChangeImage([FromBody] ChangeImg changeImg)
         {
-            String path = "C:/ImageStorage"; //Path
+            String path = Path.Combine(webHostEnvironment.WebRootPath, "images"); //Path
             string imgPath = Path.Combine(path, changeImg.id);
             imgPath += ".jpg";
             byte[] imageBytes = Convert.FromBase64String(changeImg.imgbase64);
             System.IO.File.WriteAllBytes(imgPath, imageBytes);
-            return Ok();
+            return Ok(imgPath);
         }
         [HttpPost("ResetPassword")]
         public async Task<object> UpdatePassword([FromBody] ResetPassword userPass)
