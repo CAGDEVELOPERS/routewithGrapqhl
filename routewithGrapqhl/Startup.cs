@@ -38,13 +38,11 @@ namespace routewithGrapqhl
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("CORS",
-                builder =>
-                {
-                    builder.WithOrigins("*")
-                                        .AllowAnyHeader()
-                                        .AllowAnyMethod();
-                });
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
             });
             // Configurations
             services.AddDbContext<ApplicationDbContext>();
@@ -145,9 +143,9 @@ namespace routewithGrapqhl
                 app.UseHsts();
             }
             app.UseMvc();
-            app.UseCors("CORS");
-            dbContext.Database.EnsureCreated();
             app.UseRouting();
+
+            dbContext.Database.EnsureCreated();
             app.UseWebSockets();
 
         }
