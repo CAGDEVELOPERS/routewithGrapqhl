@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ using System.Threading.Tasks;
 
 namespace API.Controller
 {
+    [EnableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
