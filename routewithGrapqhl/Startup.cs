@@ -38,11 +38,13 @@ namespace routewithGrapqhl
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                options.AddPolicy("CORS",
+                builder =>
+                {
+                    builder.WithOrigins("*")
+                                        .AllowAnyHeader()
+                                        .AllowAnyMethod();
+                });
             });
             // Configurations
             services.AddDbContext<ApplicationDbContext>();
