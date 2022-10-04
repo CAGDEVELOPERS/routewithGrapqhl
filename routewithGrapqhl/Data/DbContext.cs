@@ -1,4 +1,5 @@
 ﻿
+using API.Data.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,7 @@ namespace Infrastructure.Data
 {
     public class ApplicationDbContext : IdentityDbContext<User, IdentityRole, string>
     {
+        public DbSet<Clients> Clients { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(GetConnectionString());

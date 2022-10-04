@@ -48,6 +48,7 @@ namespace routewithGrapqhl
             });
             // Configurations
             services.AddDbContext<ApplicationDbContext>();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // ===== Add Identity ========
             // ===== Add Identity ========
