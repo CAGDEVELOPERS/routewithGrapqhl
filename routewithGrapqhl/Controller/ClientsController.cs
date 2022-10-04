@@ -23,7 +23,7 @@ using System.Threading.Tasks;
 namespace API.Controller
 {
     [EnableCors("CORS")]
-    [Microsoft.AspNetCore.Components.Route("api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ClientsController : ControllerBase
     {
@@ -39,7 +39,7 @@ namespace API.Controller
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("")]
         public IActionResult GetClients()
         {
             return Ok(_context.Clients.Where(x => x.Activo));
@@ -50,7 +50,7 @@ namespace API.Controller
             return Ok(_context.Clients.Where(x => !x.Activo));
         }
 
-        [HttpPost()]
+        [HttpPost("")]
         public async Task<IActionResult> PostClient(CreateClientDto client)
         {
             var tiendamodel = _mapper.Map<Clients>(client);
@@ -59,7 +59,7 @@ namespace API.Controller
             return Ok();
         }
 
-        [HttpPut()]
+        [HttpPut("")]
         public async Task<IActionResult> PutClient(UpdateClientDto client)
         {
             var clientes = _context.Clients.Where(x => x.id == client.id).FirstOrDefault();
@@ -69,10 +69,10 @@ namespace API.Controller
             return Ok();
         }
 
-        [HttpDelete()]
-        public async Task<IActionResult> DeleteClient(UpdateClientDto client)
+        [HttpDelete("")]
+        public async Task<IActionResult> DeleteClient(int client)
         {
-            var clientes = _context.Clients.Where(x => x.id == client.id).FirstOrDefault();
+            var clientes = _context.Clients.Where(x => x.id == client).FirstOrDefault();
             clientes.Activo = false;
             await _context.SaveChangesAsync();
             return Ok();
@@ -88,7 +88,7 @@ namespace API.Controller
         public string Grupo { get; set; }
         public string RFC { get; set; }
         public string Calle { get; set; }
-        public string Colinia { get; set; }
+        public string Colonia { get; set; }
         public string Ciudad { get; set; }
         public string Estado { get; set; }
         public string Pais { get; set; }
@@ -106,7 +106,7 @@ namespace API.Controller
         public string Grupo { get; set; }
         public string RFC { get; set; }
         public string Calle { get; set; }
-        public string Colinia { get; set; }
+        public string Colonia { get; set; }
         public string Ciudad { get; set; }
         public string Estado { get; set; }
         public string Pais { get; set; }

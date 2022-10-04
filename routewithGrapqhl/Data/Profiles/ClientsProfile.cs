@@ -14,6 +14,7 @@ namespace BEFASH.Profiles
         {
             //Source=> target
             CreateMap<CreateClientDto, Clients>();
+            CreateMap<UpdateClientDto, Clients>();
 
 
         }
