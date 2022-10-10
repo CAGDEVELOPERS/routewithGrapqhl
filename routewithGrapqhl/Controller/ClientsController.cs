@@ -69,10 +69,10 @@ namespace API.Controller
             return Ok();
         }
 
-        [HttpDelete("")]
-        public async Task<IActionResult> DeleteClient(int client)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteClient(int id)
         {
-            var clientes = _context.Clients.Where(x => x.id == client).FirstOrDefault();
+            var clientes = _context.Clients.Where(x => x.id == id).FirstOrDefault();
             clientes.Activo = false;
             await _context.SaveChangesAsync();
             return Ok();
